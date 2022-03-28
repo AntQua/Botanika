@@ -1,0 +1,15 @@
+﻿@model ProductListViewModel
+
+<div>
+    <h2> @Model.CategoryProd </h2>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+        <partial name="_ProductsPartial" for="@product" />
+        }
+    </div>
+</div>

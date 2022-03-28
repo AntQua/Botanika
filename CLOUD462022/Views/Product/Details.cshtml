@@ -1,0 +1,25 @@
+﻿@model Product
+
+<div class="container marginTop">
+    <div class="row">
+        <div class="card border-0">
+            <div class="text-center view overlay hm-white-slight">
+                <img src="@Model.ImageUrl" class="card-img-top imageProductDetail" alt="">
+                <a href="#">
+                    <div class="mask waves-effect waves-light"></div>
+                </a>
+            </div>
+            <div class="card-block">
+                <h2 class="card-title">@Model.ProductName</h2>
+                <h4 class="formPullRightButton">@Model.Price.ToString("c")</h4>
+                <p class="card-text"><h5>@Model.Description</h5></p>
+                <p class="btn btn-group align-content-lg-end">
+                    <a asp-controller="Product" asp-action="List" class="btn btn-outline-info">All Products</a>
+                    <a class="btn btn-info" id="cartButton" asp-controller="ShoppingCart" asp-action="AddItemShoppingCart" asp-route-productId="@Model.ProductId">
+                        Add @Model.ProductName to Shopping Cart
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@model CLOUD462022.ViewModels.OrderProductViewModel
+@{
+    ViewData["Title"] = "OrderProducts";
+    decimal totalOrder = 0;
+}
+
+<h2>Order Details</h2>
+<hr />
+<h4>Order  :  @Html.DisplayFor(model => @Model.Order.OrderId)</h4>
+<h4>Client :  @Html.DisplayFor(model => @Model.Order.FirstName) @Html.DisplayFor(model => @Model.Order.LastName)</h4>
+<h4>Order Date    :  @Html.DisplayFor(model => @Model.Order.OrderDate)</h4>
+<h4>Order Delivery Date :  @Html.DisplayFor(model => @Model.Order.OrderDeliveryDate)</h4>
+
+<table class="table">
+    @foreach (var item in @Model.Order.OrderItems)
+    {
+
+        totalOrder += (@item.Product.Price * @item.Quantity);
+        
+
+        <tr>
+            <td align="right">
+                <h4>@Html.DisplayFor(modelItem => item.Product.ProductName)</h4>
+            </td>
+            <td align="right">
+                <img src="@item.Product.ImageUrl" class="img-fluid" height="100" width="100">
+            </td>
+            <td align="right">
+                <h4>@string.Format("{0:C}", item.Product.Price)</h4>
+            </td>
+            <td align="right">
+                <h4>(@Html.DisplayFor(modelItem => item.Quantity))</h4>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="2">&nbsp;</td>
+        <td align="right">
+            <h4>Order Total : @string.Format("{0:C}", totalOrder)</h4>
+        </td>
+    </tr>
+</table>
+<a asp-action="Index" class="btn btn-info">Return</a>
+
