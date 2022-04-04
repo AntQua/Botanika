@@ -11,6 +11,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.Extensions.Azure;
+using Azure.Storage.Queues;
+using Azure.Storage.Blobs;
+using Azure.Core.Extensions;
+using System;
+using CLOUD462022.Areas.Admin.Services.Interfaces;
+using CLOUD462022.Areas.Admin.Services;
 
 namespace CLOUD462022
 {
@@ -37,6 +44,10 @@ namespace CLOUD462022
 
             services.ConfigureApplicationCookie(options => options.AccessDeniedPath = "/Home/AccessDenied");
 
+            services.AddSingleton(u => new BlobServiceClient(Configuration.GetValue<string>("Azure:StorageConnectionString")));
+            services.AddSingleton<IContainerService, ContainerService>();
+            services.AddSingleton<IBlobService, BlobService>();
+
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
@@ -53,6 +64,11 @@ namespace CLOUD462022
 
             services.AddMemoryCache();
             services.AddSession();
+            services.AddAzureClients(builder =>
+            {
+                builder.AddBlobServiceClient(Configuration["CLOUD462022connectionstringstorageac:blob"], preferMsi: true);
+                builder.AddQueueServiceClient(Configuration["CLOUD462022connectionstringstorageac:queue"], preferMsi: true);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,6 +106,31 @@ namespace CLOUD462022
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+    }
+    internal static class StartupExtensions
+    {
+        public static IAzureClientBuilder<BlobServiceClient, BlobClientOptions> AddBlobServiceClient(this AzureClientFactoryBuilder builder, string serviceUriOrConnectionString, bool preferMsi)
+        {
+            if (preferMsi && Uri.TryCreate(serviceUriOrConnectionString, UriKind.Absolute, out Uri serviceUri))
+            {
+                return builder.AddBlobServiceClient(serviceUri);
+            }
+            else
+            {
+                return builder.AddBlobServiceClient(serviceUriOrConnectionString);
+            }
+        }
+        public static IAzureClientBuilder<QueueServiceClient, QueueClientOptions> AddQueueServiceClient(this AzureClientFactoryBuilder builder, string serviceUriOrConnectionString, bool preferMsi)
+        {
+            if (preferMsi && Uri.TryCreate(serviceUriOrConnectionString, UriKind.Absolute, out Uri serviceUri))
+            {
+                return builder.AddQueueServiceClient(serviceUri);
+            }
+            else
+            {
+                return builder.AddQueueServiceClient(serviceUriOrConnectionString);
+            }
         }
     }
 }
