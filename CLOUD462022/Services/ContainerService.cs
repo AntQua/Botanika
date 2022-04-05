@@ -1,12 +1,12 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using CLOUD462022.Areas.Admin.Services.Interfaces;
+using CLOUD462022.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CLOUD462022.Areas.Admin.Services
+namespace CLOUD462022.Services
 {
     public class ContainerService : IContainerService
     {

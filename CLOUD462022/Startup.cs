@@ -16,8 +16,8 @@ using Azure.Storage.Queues;
 using Azure.Storage.Blobs;
 using Azure.Core.Extensions;
 using System;
-using CLOUD462022.Areas.Admin.Services.Interfaces;
-using CLOUD462022.Areas.Admin.Services;
+using CLOUD462022.Services.Interfaces;
+using CLOUD462022.Services;
 
 namespace CLOUD462022
 {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CLOUD462022.Areas.Admin.Services.Interfaces
+namespace CLOUD462022.Services.Interfaces
 {
     public interface IBlobService
     {

@@ -1,4 +1,4 @@
-﻿using CLOUD462022.Areas.Admin.Services.Interfaces;
+﻿using CLOUD462022.Services.Interfaces;
 using CLOUD462022.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
