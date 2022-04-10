@@ -55,6 +55,33 @@ namespace CLOUD462022.Services
             return blobClient.Uri.AbsoluteUri; 
         }
 
+        public async Task<List<Blob>> GetBlobsWithUri (string containerName)
+        {
+            BlobContainerClient blobContainerClient = _blobClient.GetBlobContainerClient(containerName);
+            var blobs = blobContainerClient.GetBlobsAsync();
+            var blobList = new List<Blob>();
+
+            await foreach (var item in blobs)
+            {
+                var blobClient = blobContainerClient.GetBlobClient(item.Name);
+                Blob blobIndividual = new()
+                {
+                    Uri = blobClient.Uri.AbsoluteUri 
+                };
+
+                BlobProperties properties = await blobClient.GetPropertiesAsync();
+
+                if (properties.Metadata.ContainsKey("title"))
+                {
+                    blobIndividual.Title = properties.Metadata["title"];
+                }
+
+                blobList.Add(blobIndividual);
+            }
+
+            return blobList;
+        }
+
         public async Task<bool> UploadBlob(string name, IFormFile file, string containerName, Blob blob)
         {
             BlobContainerClient blobContainerClient = _blobClient.GetBlobContainerClient(containerName);

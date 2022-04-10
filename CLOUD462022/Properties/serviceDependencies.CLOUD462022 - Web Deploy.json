@@ -5,6 +5,12 @@
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:CLOUD462022DbContext",
       "secretStore": "AzureAppSettings"
+    },
+    "storage2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/cloud462022storageac",
+      "type": "storage.azure",
+      "connectionId": "Azure:StorageConnectionString",
+      "secretStore": "AzureAppSettings"
     }
   }
 }
